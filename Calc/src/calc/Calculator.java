@@ -3,7 +3,7 @@ package calc;
 import calc.operation.Adder;
 import calc.operation.Substractor;
 import calc.operation.Multiplier;
-import calc.operation.Divider;
+import calc.operation.Shifter;
 
 public class Calculator {
     public int sum(int... a) {
@@ -30,11 +30,11 @@ public class Calculator {
         return multiplier.getMult();
     }
 
-    public int divide(int... a) {
-        Divider divider = new Divider();
-        for (int i : a) {
-            divider.divide(i);
+    public double shift(int... a) {
+        Shifter shifter = new Shifter(a);
+        for (int i = 1; i < a.length; i++) {
+            shifter.to_shift(a[i]);
         }
-        return divider.getDivid();
+        return shifter.getShiftRes();
     }
 }
