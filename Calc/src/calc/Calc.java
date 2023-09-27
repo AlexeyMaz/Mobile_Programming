@@ -9,6 +9,6 @@ public class Calc {
         System.out.println("9 - 5 - 4 - 2 = " + calc.sub(9, 5, 4, 2));
         System.out.println("3 * 2 * 4 = " + calc.mult(3, 2, 4));
         System.out.println("42 / 7 / 2 = " + calc.divide(42, 7, 3));
-        System.out.println("8 << 2 = " + calc.shift(8, 2));
+        System.out.println("8 >> 2 = " + calc.shift(8, 2));
     }
 }
