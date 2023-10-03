@@ -7,6 +7,10 @@
       <sourceFolder url="file://$MODULE_DIR$/LR2/User/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LR2/Shape/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LR3/Shape/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LR4/DrawFigures/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LR4/Tasks/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LR4/Figure/Shape/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LR4/Figure/User/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
