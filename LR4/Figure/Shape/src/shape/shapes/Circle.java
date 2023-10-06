@@ -1,68 +1,34 @@
 package shape.shapes;
 
-import shape.interfaces.Drawable;
-import shape.interfaces.GeometricObject;
-import shape.interfaces.Movable;
+import shape.Shape;
+import java.awt.*;
 
-import java.util.Objects;
-
-public class Circle implements GeometricObject, Movable, Drawable {
-    private int x;
-    private int y;
+public class Circle extends Shape {
     private int radius;
-    private String color;
 
-    public Circle(int x, int y, int radius) {
-        setCoords(x, y);
+    public Circle(int x1, int y1, int radius, Color color) {
+        super(x1, y1, color);
         this.radius = radius;
-        this.color = "white";
-    }
-
-    @Override
-    public double getPerimeter() {
-        return 2 * Math.PI * radius;
-    }
-
-    @Override
-    public double getSquare() {
-        return Math.PI * radius * radius;
-    }
-
-    @Override
-    public void move(int deltaX, int deltaY) {
-        x += deltaX;
-        y += deltaY;
     }
 
     @Override
     public String toString() {
-        return "Circle: x = " + x + ", y = " + y + ", radius = " + radius;
+        return "Circle: x1 = " + x1 + ", y1 = " + y1 + ", radius = " + radius;
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof Circle o) {
-            return x == o.x && y == o.y && radius == o.radius && Objects.equals(color, o.color);
-        }
+        if (super.equals(object))
+            if (object instanceof Circle o) {
+                return radius == o.radius;
+            }
         return false;
     }
 
     @Override
-    public void draw() {
-        System.out.println("Нарисован круг");
-    }
-
-    @Override
-    public void fill(String color) {
-        this.color = color;
-    }
-
-    public int[] getCoords() {
-        return new int[] {x, y};
-    }
-    public void setCoords(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void draw(Graphics g) {
+        g.setColor(color);
+        g.fillOval(x1 - radius, y1 - radius, 2 * radius, 2 * radius);
     }
 
     public int getRadius() {
@@ -71,9 +37,4 @@ public class Circle implements GeometricObject, Movable, Drawable {
     public void setRadius(int radius) {
         this.radius = radius;
     }
-
-    public String getColor() {
-        return color;
-    }
-    public void setColor(String color) {this.color = color;}
 }

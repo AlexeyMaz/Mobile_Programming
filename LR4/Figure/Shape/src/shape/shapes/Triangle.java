@@ -1,84 +1,48 @@
 package shape.shapes;
 
-import shape.interfaces.Drawable;
-import shape.interfaces.GeometricObject;
-import shape.interfaces.Movable;
+import shape.Shape;
+import java.awt.*;
 
-import java.util.Objects;
+public class Triangle extends Shape {
+    private int x2, y2, x3, y3;
 
-public class Triangle implements GeometricObject, Movable, Drawable {
-    private int x;
-    private int y;
-    private int side1;
-    private int side2;
-    private int side3;
-    private String color;
-
-    public Triangle(int x, int y, int side1, int side2, int side3) {
-        setCoords(x, y);
-        setSides(side1, side2, side3);
-        this.color = "white";
-    }
-
-    @Override
-    public double getPerimeter() {
-        return side1 + side2 + side3;
-    }
-
-    @Override
-    public double getSquare() {
-        double p = getPerimeter() / 2.0;
-        return Math.sqrt(p * (p - side1) * (p - side2) * (p - side3));
-    }
-
-    @Override
-    public void move(int deltaX, int deltaY) {
-        x += deltaX;
-        y += deltaY;
+    public Triangle(int x1, int y1, int x2, int y2, int x3, int y3, Color color) {
+        super(x1, y1, color);
+        setCoords(x1, y1, x2, y2, x3, y3);
     }
 
     @Override
     public String toString() {
-        return "Triangle: x = " + x + ", y = " + y + ", side1 = " + side1 + ", side2 = " + side2 + ", side3 = " + side3;
+        return "Triangle: x1 = " + x1 + ", y1 = " + y1 + ", x2 = " + x2 + ", y2 = " + y2 +
+                "x3 = " + x3 + ", y3 = " + y3;
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof Triangle o) {
-            return x == o.x && y == o.y && side1 == o.side1 && side2 == o.side2 && side3 == o.side3 && Objects.equals(color, o.color);
-        }
+        if (super.equals(object))
+            if (object instanceof Triangle o) {
+                return x2 == o.x2 && y2 == o.y2 && x3 == o.x3 && y3 == o.y3;
+            }
         return false;
     }
 
     @Override
-    public void draw() {
-        System.out.println("Нарисован треугольник");
-    }
-
-    @Override
-    public void fill(String color) {
-        this.color = color;
+    public void draw(Graphics g) {
+        g.setColor(color);
+        int[] xPoints = {x1, x2, x3};
+        int[] yPoints = {y1, y2, y3};
+        g.fillPolygon(xPoints, yPoints, 3);
     }
 
     public int[] getCoords() {
-        return new int[] {x, y};
+        return new int[] {x1, y1, x2, y2, x3, y3};
     }
-    public void setCoords(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void setCoords(int x1, int y1, int x2, int y2, int x3, int y3) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.x3 = x3;
+        this.y3 = y3;
     }
-
-    public int[] getSides() {
-        return new int[] {side1, side2, side3};
-    }
-    public void setSides(int side1, int side2, int side3) {
-        this.side1 = side1;
-        this.side2 = side2;
-        this.side3 = side3;
-    }
-
-    public String getColor() {
-        return color;
-    }
-    public void setColor(String color) {this.color = color;}
 }
