@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import javax.imageio.ImageIO;
+import javax.swing.border.LineBorder;
 
 public class SimpleGraphicsEditor {
     private static Map<String, Boolean> isButtonsPressedMap = new HashMap<>();
@@ -55,39 +56,13 @@ public class SimpleGraphicsEditor {
                 getScaledInstance(width, height, Image.SCALE_DEFAULT);
         JButton circle_button = getjButton(circle_image);
         shapesPanel.add(circle_button, gbc);
-// TODO : попытаться вынести экшн листенеры в функцию
-        circle_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                resetCoordsCount();
-                for (String button : isButtonsPressedMap.keySet()) {
-                    boolean value = isButtonsPressedMap.get(button);
-                    if (!Objects.equals(button, "isCircleButtonPressed"))
-                        isButtonsPressedMap.put(button, false);
-                    else
-                        isButtonsPressedMap.put(button, !value);
-                }
-            }
-        });
         circle_button.setPreferredSize(new Dimension(width, height));
+
 
         gbc.gridy++;
         Image square_image = ImageIO.read(new File("LR4\\DrawFigures\\images\\square.png")).
                 getScaledInstance(width, height, Image.SCALE_DEFAULT);
         JButton square_button = getjButton(square_image);
-        square_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                resetCoordsCount();
-                for (String button : isButtonsPressedMap.keySet()) {
-                    boolean value = isButtonsPressedMap.get(button);
-                    if (!Objects.equals(button, "isSquareButtonPressed"))
-                        isButtonsPressedMap.put(button, false);
-                    else
-                        isButtonsPressedMap.put(button, !value);
-                }
-            }
-        });
         square_button.setPreferredSize(new Dimension(width, height));
         shapesPanel.add(square_button, gbc);
 
@@ -95,19 +70,6 @@ public class SimpleGraphicsEditor {
         Image triangle_image = ImageIO.read(new File("LR4\\DrawFigures\\images\\triangle.png")).
                 getScaledInstance(width, height, Image.SCALE_DEFAULT);
         JButton triangle_button = getjButton(triangle_image);
-        triangle_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isButtonsPressedMap.get("isLineButtonPressed")) resetCoordsCount();
-                for (String button : isButtonsPressedMap.keySet()) {
-                    boolean value = isButtonsPressedMap.get(button);
-                    if (!Objects.equals(button, "isTriangleButtonPressed"))
-                        isButtonsPressedMap.put(button, false);
-                    else
-                        isButtonsPressedMap.put(button, !value);
-                }
-            }
-        });
         triangle_button.setPreferredSize(new Dimension(width, height));
         shapesPanel.add(triangle_button, gbc);
 
@@ -115,19 +77,6 @@ public class SimpleGraphicsEditor {
         Image line_image = ImageIO.read(new File("LR4\\DrawFigures\\images\\line.png")).
                 getScaledInstance(width, height, Image.SCALE_DEFAULT);
         JButton line_button = getjButton(line_image);
-        line_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isButtonsPressedMap.get("isTriangleButtonPressed")) resetCoordsCount();
-                for (String button : isButtonsPressedMap.keySet()) {
-                    boolean value = isButtonsPressedMap.get(button);
-                    if (!Objects.equals(button, "isLineButtonPressed"))
-                        isButtonsPressedMap.put(button, false);
-                    else
-                        isButtonsPressedMap.put(button, !value);
-                }
-            }
-        });
         line_button.setPreferredSize(new Dimension(width, height));
         shapesPanel.add(line_button, gbc);
 
@@ -142,6 +91,100 @@ public class SimpleGraphicsEditor {
                 g.drawImage(color_image, CENTER, CENTER, null);
             }
         };
+
+
+        // TODO : попытаться вынести экшн листенеры в функцию
+        circle_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetCoordsCount();
+                for (String button : isButtonsPressedMap.keySet()) {
+                    boolean value = isButtonsPressedMap.get(button);
+                    if (!Objects.equals(button, "isCircleButtonPressed"))
+                        isButtonsPressedMap.put(button, false);
+                    else {
+                        isButtonsPressedMap.put(button, !value);
+                        if (!value) {
+                            circle_button.setBorder(new LineBorder(Color.BLUE, 3));
+                            square_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            line_button.setBorder(new LineBorder(Color.GRAY, 1));
+                        }
+                        else
+                            circle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                    }
+                }
+            }
+        });
+
+        square_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetCoordsCount();
+                for (String button : isButtonsPressedMap.keySet()) {
+                    boolean value = isButtonsPressedMap.get(button);
+                    if (!Objects.equals(button, "isSquareButtonPressed"))
+                        isButtonsPressedMap.put(button, false);
+                    else {
+                        isButtonsPressedMap.put(button, !value);
+                        if (!value) {
+                            circle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            square_button.setBorder(new LineBorder(Color.BLUE, 3));
+                            triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            line_button.setBorder(new LineBorder(Color.GRAY, 1));
+                        }
+                        else
+                            square_button.setBorder(new LineBorder(Color.GRAY, 1));
+                    }
+                }
+            }
+        });
+
+        triangle_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isButtonsPressedMap.get("isLineButtonPressed")) resetCoordsCount();
+                for (String button : isButtonsPressedMap.keySet()) {
+                    boolean value = isButtonsPressedMap.get(button);
+                    if (!Objects.equals(button, "isTriangleButtonPressed"))
+                        isButtonsPressedMap.put(button, false);
+                    else {
+                        isButtonsPressedMap.put(button, !value);
+                        if (!value) {
+                            circle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            square_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            triangle_button.setBorder(new LineBorder(Color.BLUE, 3));
+                            line_button.setBorder(new LineBorder(Color.GRAY, 1));
+                        }
+                        else
+                            triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                    }
+                }
+            }
+        });
+
+        line_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isButtonsPressedMap.get("isTriangleButtonPressed")) resetCoordsCount();
+                for (String button : isButtonsPressedMap.keySet()) {
+                    boolean value = isButtonsPressedMap.get(button);
+                    if (!Objects.equals(button, "isLineButtonPressed"))
+                        isButtonsPressedMap.put(button, false);
+                    else {
+                        isButtonsPressedMap.put(button, !value);
+                        if (!value) {
+                            circle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            square_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                            line_button.setBorder(new LineBorder(Color.BLUE, 3));
+                        }
+                        else
+                            line_button.setBorder(new LineBorder(Color.GRAY, 1));
+                    }
+                }
+            }
+        });
 
         chooseColorButton.addActionListener(new ActionListener() {
             @Override
@@ -169,6 +212,12 @@ public class SimpleGraphicsEditor {
                 Graphics g = drawPanel.getGraphics();
                 g.setColor(Color.WHITE); // Задаем белый цвет
                 g.fillRect(0, 0, drawPanel.getWidth(), drawPanel.getHeight());
+
+                isButtonsPressedMap.replaceAll((b, v) -> false);
+                circle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                square_button.setBorder(new LineBorder(Color.GRAY, 1));
+                triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
+                line_button.setBorder(new LineBorder(Color.GRAY, 1));
             }
         });
         buttonPanel.add(clearButton, BorderLayout.SOUTH);
@@ -200,7 +249,7 @@ public class SimpleGraphicsEditor {
         frame.setResizable(false);
     }
 
-    // TODO : сделать так чтобы при нажатии одной кнопки все остальные кнопки принимали значение false
+
     private static JButton getjButton(Image figure_image) {
         return new JButton() {
             @Override
@@ -262,8 +311,7 @@ public class SimpleGraphicsEditor {
                         Graphics g = drawPanel.getGraphics();
                         figure.draw(g);
 
-                        clickCount = 0;
-                        coords.clear();
+                        resetCoordsCount();
                     }
                 }
                 case "isLineButtonPressed" -> {
@@ -279,8 +327,7 @@ public class SimpleGraphicsEditor {
                             Graphics g = drawPanel.getGraphics();
                             figure.draw(g);
 
-                            clickCount = 0;
-                            coords.clear();
+                            resetCoordsCount();
                         }
                     }
                 }
@@ -288,4 +335,3 @@ public class SimpleGraphicsEditor {
         }
     }
 }
-// метод градиентного спуска главная цель - найти минимум
