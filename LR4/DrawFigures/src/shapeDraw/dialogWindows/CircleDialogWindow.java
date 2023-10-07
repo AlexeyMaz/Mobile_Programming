@@ -1,4 +1,4 @@
-package shapeDraw;
+package shapeDraw.dialogWindows;
 
 import javax.swing.*;
 import java.awt.*;

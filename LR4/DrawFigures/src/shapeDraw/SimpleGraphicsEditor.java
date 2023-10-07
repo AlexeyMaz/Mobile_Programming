@@ -1,6 +1,7 @@
 package shapeDraw;
 
 import shape.shapes.*;
+import shapeDraw.dialogWindows.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -247,6 +248,11 @@ public class SimpleGraphicsEditor {
         return circleDialogFrame.getRadius();
     }
 
+    private static int squareInfoFromWindow() {
+        SquareDialogWindow squareDialogFrame = new SquareDialogWindow(frame);
+        return squareDialogFrame.getSideLength();
+    }
+
     private static void drawFigure(JPanel drawPanel, MouseEvent e) {
         for (Map.Entry<String, Boolean> entry : isButtonsPressedMap.entrySet()) {
             String buttonName = entry.getKey();
@@ -269,10 +275,10 @@ public class SimpleGraphicsEditor {
                     if (isPressed) {
                         int mouseX = e.getX();
                         int mouseY = e.getY();
-                        
 
-                        int sideLength = 60;
-                        Square figure = new Square(mouseX, mouseY, sideLength, selectedColor);
+                        int squareSideLength = squareInfoFromWindow();
+//                        int sideLength = 60;
+                        Square figure = new Square(mouseX, mouseY, squareSideLength, selectedColor);
                         Graphics g = drawPanel.getGraphics();
                         figure.draw(g);
                     }
