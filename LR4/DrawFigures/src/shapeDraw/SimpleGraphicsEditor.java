@@ -18,6 +18,7 @@ import javax.swing.border.LineBorder;
 public class SimpleGraphicsEditor {
     private static JFrame frame;
     private static final Map<String, Boolean> isButtonsPressedMap = new HashMap<>();
+    private static final Map<String, JButton> buttonMap = new HashMap<>();
     private static final ArrayList<Integer> coords = new ArrayList<>();
     private static int clickCount = 0;
     private static final int width = 50;
@@ -43,12 +44,6 @@ public class SimpleGraphicsEditor {
                 gbc.gridx = 0;
                 gbc.gridy = 0;
                 gbc.insets = new Insets(0, 0, 5, 0);
-
-
-                isButtonsPressedMap.put("isCircleButtonPressed", false);
-                isButtonsPressedMap.put("isSquareButtonPressed", false);
-                isButtonsPressedMap.put("isTriangleButtonPressed", false);
-                isButtonsPressedMap.put("isLineButtonPressed", false);
 
 
                 Image circle_image;
@@ -120,90 +115,26 @@ public class SimpleGraphicsEditor {
                 buttonPanel.add(shapesPanel, BorderLayout.CENTER);
 
                 chooseColorButton.addActionListener(e -> {
-                    Color newColor = JColorChooser.showDialog(frame, "Выберите цвет", selectedColor);
-                    if (newColor != null) {
+                    Color newColor = JColorChooser.showDialog(frame, "Выберите цвет фигуры", selectedColor);
+                    if (newColor != null)
                         selectedColor = newColor;
-                        System.out.println(selectedColor);
-                    }
                 });
 
 
-                // TODO : попытаться вынести экшн листенеры в функцию
-                circle_button.addActionListener(e -> {
-                    resetCoordsCount();
-                    for (String button : isButtonsPressedMap.keySet()) {
-                        boolean value = isButtonsPressedMap.get(button);
-                        if (!Objects.equals(button, "isCircleButtonPressed"))
-                            isButtonsPressedMap.put(button, false);
-                        else {
-                            isButtonsPressedMap.put(button, !value);
-                            if (!value) {
-                                circle_button.setBorder(new LineBorder(Color.BLUE, 3));
-                                square_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                line_button.setBorder(new LineBorder(Color.GRAY, 1));
-                            } else
-                                circle_button.setBorder(new LineBorder(Color.GRAY, 1));
-                        }
-                    }
-                });
+                isButtonsPressedMap.put("isCircleButtonPressed", false);
+                isButtonsPressedMap.put("isSquareButtonPressed", false);
+                isButtonsPressedMap.put("isTriangleButtonPressed", false);
+                isButtonsPressedMap.put("isLineButtonPressed", false);
 
-                square_button.addActionListener(e -> {
-                    resetCoordsCount();
-                    for (String button : isButtonsPressedMap.keySet()) {
-                        boolean value = isButtonsPressedMap.get(button);
-                        if (!Objects.equals(button, "isSquareButtonPressed"))
-                            isButtonsPressedMap.put(button, false);
-                        else {
-                            isButtonsPressedMap.put(button, !value);
-                            if (!value) {
-                                circle_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                square_button.setBorder(new LineBorder(Color.BLUE, 3));
-                                triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                line_button.setBorder(new LineBorder(Color.GRAY, 1));
-                            } else
-                                square_button.setBorder(new LineBorder(Color.GRAY, 1));
-                        }
-                    }
-                });
+                buttonMap.put("isCircleButtonPressed", circle_button);
+                buttonMap.put("isSquareButtonPressed", square_button);
+                buttonMap.put("isTriangleButtonPressed", triangle_button);
+                buttonMap.put("isLineButtonPressed", line_button);
 
-                triangle_button.addActionListener(e -> {
-                    if (isButtonsPressedMap.get("isLineButtonPressed")) resetCoordsCount();
-                    for (String button : isButtonsPressedMap.keySet()) {
-                        boolean value = isButtonsPressedMap.get(button);
-                        if (!Objects.equals(button, "isTriangleButtonPressed"))
-                            isButtonsPressedMap.put(button, false);
-                        else {
-                            isButtonsPressedMap.put(button, !value);
-                            if (!value) {
-                                circle_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                square_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                triangle_button.setBorder(new LineBorder(Color.BLUE, 3));
-                                line_button.setBorder(new LineBorder(Color.GRAY, 1));
-                            } else
-                                triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
-                        }
-                    }
-                });
-
-                line_button.addActionListener(e -> {
-                    if (isButtonsPressedMap.get("isTriangleButtonPressed")) resetCoordsCount();
-                    for (String button : isButtonsPressedMap.keySet()) {
-                        boolean value = isButtonsPressedMap.get(button);
-                        if (!Objects.equals(button, "isLineButtonPressed"))
-                            isButtonsPressedMap.put(button, false);
-                        else {
-                            isButtonsPressedMap.put(button, !value);
-                            if (!value) {
-                                circle_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                square_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                triangle_button.setBorder(new LineBorder(Color.GRAY, 1));
-                                line_button.setBorder(new LineBorder(Color.BLUE, 3));
-                            } else
-                                line_button.setBorder(new LineBorder(Color.GRAY, 1));
-                        }
-                    }
-                });
+                setButtonAction(circle_button, "isCircleButtonPressed");
+                setButtonAction(square_button, "isSquareButtonPressed");
+                setButtonAction(triangle_button, "isTriangleButtonPressed");
+                setButtonAction(line_button, "isLineButtonPressed");
 
 
                 JPanel drawPanel = new JPanel();
@@ -266,6 +197,25 @@ public class SimpleGraphicsEditor {
     private static void resetCoordsCount() {
         coords.clear();
         clickCount = 0;
+    }
+
+    private static void setButtonAction(JButton button, String buttonKey) {
+        button.addActionListener(e -> {
+            resetCoordsCount();
+            for (String key : isButtonsPressedMap.keySet()) {
+                boolean value = isButtonsPressedMap.get(key);
+                if (!Objects.equals(key, buttonKey)) {
+                    isButtonsPressedMap.put(key, false);
+                    buttonMap.get(key).setBorder(new LineBorder(Color.GRAY, 1));
+                } else {
+                    isButtonsPressedMap.put(key, !value);
+                    if (!value)
+                        button.setBorder(new LineBorder(Color.BLUE, 3));
+                    else
+                        button.setBorder(new LineBorder(Color.GRAY, 1));
+                }
+            }
+        });
     }
 
     private static int circleInfoFromWindow() {
